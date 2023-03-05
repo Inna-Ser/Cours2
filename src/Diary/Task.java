@@ -1,10 +1,19 @@
 package Diary;
 
+import Diary.Exception.IncorrectArgumentException;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Task {
-
+public abstract class Task {
+    public enum Repeatability {
+        ONE_TIME,
+        EVERY_DAY,
+        EVERY_WEEK,
+        EVERY_MONTH,
+        EVERY_YEAR
+    }
     private String title;
     private String description;
     private LocalDateTime dateTime;
@@ -12,7 +21,7 @@ public class Task {
     private int id;
     private static int idGenerator = 1;
 
-    public Task(String title, String description, LocalDateTime dateTime, Type type, int id) {
+    public Task(String title, String description, LocalDateTime dateTime, Type type) {
         if (title != null || !title.isBlank() || !title.isEmpty()) {
             this.title = title;
         } else {
@@ -26,7 +35,7 @@ public class Task {
         this.description = description;
         this.dateTime = dateTime;
         this.type = type;
-        this.id = id;
+        this.id = idGenerator++;
     }
 
     public String getTitle() {
@@ -60,6 +69,10 @@ public class Task {
     public static int getIdGenerator() {
         return idGenerator;
     }
+
+    public abstract boolean appearsIn(LocalDate date);
+
+    public abstract Repeatability getRepeatability();
 
     @Override
     public boolean equals(Object o) {

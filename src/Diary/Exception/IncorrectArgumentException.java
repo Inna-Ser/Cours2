@@ -1,4 +1,7 @@
-package Diary;
+package Diary.Exception;
+
+import Diary.Task;
+
 public class IncorrectArgumentException extends Exception {
     private final Task task;
 
